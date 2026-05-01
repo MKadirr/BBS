@@ -1,0 +1,71 @@
+program =
+	vardec [ program ]
+	functions [ program ]
+
+exps = { exp ";" } ;
+
+block =
+	exp
+	| "{" exps "}"
+
+exp =
+	number
+	| float
+	| string
+
+	| lvalue
+
+	| id "(" [ exp { "," exp }] ")"
+	| lvalue "." id "(" [ exp { "," exp }] ")"
+
+	| "-" exp
+	| exp op exp
+	
+	| lvalue assignop exp
+
+	| "if" exp "then" block [ "else" block ]
+	| "while" "(" exp ")" block
+	| "for" "(" [ vardec ] ";" [ exp ] ";" [ exp ] ")" block
+	| "break"
+	| "return" [ exp ]
+
+	| vardec
+
+lvalue =
+	id
+	| lvalue "." id
+	| lvalue "[" exp "]"
+	;
+
+
+number = u32 | u64
+float = f32 | f64
+
+
+op = 
+	"+" | "-" | "*" | "/" 
+	| "==" | "!=" | "<" | "<=" | "=>" | ">"
+	| "!" | "&&" | "||"
+	| "&" | "^" | "|" | "<<" | ">>" | "~"
+
+assignop = "=" | "+=" | "-=" | "*=" | "/=" | "&=" | "|=" | "^=" | "<<=" | ">>=" | "~="
+
+structdec = "struct" id "{" { struct_fields } "}" ";"
+
+struct_fields =
+	| ty id ";" [ struct_fields ]
+
+vardec = ty id "=" exp ";" ;
+
+fundec = "fn" id "(" { tyfields } ")" [ "->" ty ] "{" exps "}" ;
+
+funbody =
+	"{" exps "}"
+	| ";"
+
+tydec = "class" id [ ":" id ] "{" classfields "}" ;
+
+classfields = { classfield ";" }
+
+classfield =
+	vardec 
