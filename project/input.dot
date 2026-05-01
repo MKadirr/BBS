@@ -1,0 +1,22 @@
+digraph {
+    "lexer"        [color="blue"]
+    "parser"       [color="blue"]
+    "bind"         [color="blue"]
+    "typecheck"    [color="blue"]
+    "exec"         [color="green"]
+    "loader"       [color="green"]
+    "interpret"    [color="green"]
+    "llvm"
+    "bbi"
+    "asm"
+
+    "lexer"->"parser"
+    "parser"->"bind"
+    "bind"->"typecheck"
+    "typecheck"->"exec"
+    "exec"->"loader"
+    "loader"->"interpret"
+    "typecheck"->"llvm"
+    "typecheck"->"bbi"
+    "bbi"->"asm"
+}
