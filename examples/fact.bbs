@@ -1,4 +1,4 @@
-fn facto(i32 n) -> i64 {
+i64 facto(i32 n) {
     i64 r = 1;
 
     for (; n > 0; n--) {
