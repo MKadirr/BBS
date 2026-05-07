@@ -2,9 +2,17 @@ program =
 	vardec [ program ]
 	functions [ program ]
 
-exps = { exp ";" } ;
+block = '{' { stm } '}'
 
-block = '{' exps '}'
+stm =
+	vardec
+	| "return" [ exp ] ";"
+	| "break" ";"
+	| "if" exp block [ "else" block ]
+	| "while" "(" exp ")" block
+	| "for" "(" [ vardec { ',' vardec } ] ";" [ exp ] ";" [ exp { "," exp } ] ")" block
+	| exp ";" 
+	;
 
 exp =
 	number
@@ -12,23 +20,17 @@ exp =
 
 	| lvalue
 
-	| id "(" [ exp { "," exp }] ")"
-	| lvalue "." id "(" [ exp { "," exp }] ")"
+	| id "(" [ exp { "," exp }] ")"   			// function call
+	| lvalue "." id "(" [ exp { "," exp }] ")"  // methode call
 
-	| "-" exp
+	| "-" exp | "!" exp                                // 
 	| exp op exp
 	
 	| assignation
+	| block ;
 
-	| "if" exp block [ "else" block ]
-	| "while" "(" exp ")" block
-	| "for" "(" [ vardec { ',' vardec } ] ";" [ exp ] ";" [ assignation { ',' assignation } ] ")" block
-	| "break"
-	| "return" [ exp ]
 
-	| vardec
-
-assignation = lvalue assignop exp
+assignation = lvalue assignop exp ;
 
 lvalue =
 	id
@@ -49,17 +51,28 @@ op =
 
 assignop = "=" | "+=" | "-=" | "*=" | "/=" | "&=" | "|=" | "^=" | "<<=" | ">>=" | "~="
 
+exp    = exp ("==" | "!=" | "<" | ...") sum | sum
+sum    = sum ("+" | "-") term | term
+term   = term ("*" | "/") unary | unary
+unary  = "-" unary | "!" unary | primary
+primary = 
+	number 
+	| float 
+	| lvalue 
+	| "(" exp ")"
+    | id "(" [ exp { "," exp } ] ")"
+
 structdec = "struct" id "{" { struct_fields } "}" ";"
 
 struct_fields =
 	| ty id ";" [ struct_fields ]
 
-vardec = ty id "=" exp ";" ;
+vardec = ty id [ "=" exp ] ";" ;
 
 fundec = ty id "(" { tyfields } ")" funbody ;
 
 funbody =
-	"{" exps "}"
+	block
 	| ";"
 
 
