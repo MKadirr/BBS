@@ -1,39 +1,17 @@
-pub enum BinaryOperatorEnum {
+#[derive(Copy, Clone, PartialEq, Debug)]
+pub enum OperatorEnum {
     // Arithmetic
     Add,
     Sub,
     Mul,
     Div,
 
-    // boolean
-    Equal,
-    NotEqual,
-
-    LessThen,
-    LessOrEqual,
-    GreaterThan,
-    GreatorOrEqual,
-
-    LogicalAnd,
-    LogicalOr,
-
-    // Binary
-    BinaryAnd
-    BinaryOr,
-    BinaryXOR,
-    LeftShift,
-    RightShift,
-}
-
-pub enum UnaryOperatorEnum {
-    Plus,
-    Minus,
+    // Unary
     Not,
-    BinaryNot
-}
+    BinaryNot,
 
-pub enum AssignOperatorEnum {
-    Equal,
+    // assign
+    AssignEqual,
     AddEqual,
     SubEqual,
     MulEqual,
@@ -43,4 +21,23 @@ pub enum AssignOperatorEnum {
     BinaryXOREqual,
     LeftShiftEqual,
     RightShiftEqual,
+
+    // boolean
+    EqualEqual,
+    NotEqual,
+
+    LessThen,
+    LessOrEqual,
+    GreaterThan,
+    GreaterOrEqual,
+
+    LogicalAnd,
+    LogicalOr,
+
+    // Binary
+    BinaryAnd,
+    BinaryOr,
+    BinaryXOR,
+    LeftShift,
+    RightShift,
 }
